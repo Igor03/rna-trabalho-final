@@ -1,0 +1,158 @@
+\documentclass[12pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
+\usepackage{graphics, graphicx}
+\usepackage{setspace}
+\usepackage{pdflscape}
+\usepackage{multicol}
+\usepackage{algpseudocode, algorithm}
+\usepackage{natded}
+\usepackage{indentfirst}
+\pagestyle{myheadings}
+%\usepackage[]{algorithm2e}
+%\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{verbatim}
+%\usepackage[demo]{graphicx}
+\usepackage{subfig}
+
+
+	\thispagestyle{empty}
+    \begin{document}
+        
+	\begin{center}
+		\textbf{Instituto Federal de Educação, Ciência e Tecnologia do Ceará}
+		
+		\textbf{Bacharelado em Ciência da Computação 2017.2}
+		
+		\textbf{Disciplina:} Redes Neurais Artificiais
+		
+		\textbf{Professor:} Ajalmar Rocha
+		
+		\textbf{Aluno:} José Igor de Carvalho	
+			
+	\end{center}
+
+   %\hline
+
+\begin{center}
+    \huge\textbf{{ELM - Extreme Learning Machines}}
+    
+\end{center}
+     \hline
+    \section{Introdução}
+    \noindent
+    
+    Como sabemos, existem redes neurais com retropropagação de informações em sua fase de treinamento. Neste tipo de rede a informação flui nos sentidos diretos, para o calcula de uma saída, e inverso, para atualização de seus pesos. O maior representando deste tipo de rede neural é o MLP (\textit{Multilayer Perceptron}). O principal algoritmo de treinamento para este tipo de rede é o \textit{Backpropagation} que é baseado no algoritmo do gradiente descendente. Porém, a fase de treinamento deste tipo de rede, em geral, é muito custosa para grandes bases de dados, além de serem extremamente complexas.
+    
+    As redes ELM ou \textit{Extreme Learning Machines} são baseadas em \textit{Feedforward}. Neste tipo de arquitetura as informações fluem em apenas um sentido - o direto. Isso se dá principalmente pelo fato de que os pesos das camada camada escondida não precisam ser ajustados e os valores da camada de saída são obtidos com OLAM, ou solução por mínimos quadrados. Devido à isto, seu treinamento é extremamente rápido se comparado com redes com retropropagação de informações. Além disso, mostram-se eficazes tanto para tarefas de classificação quanto para tarefas de regressão. A Figura 1 mostra a arquitetura tradicional de uma rede ELM. 
+    
+     \begin{figure}[!htb]
+    	\centering
+    	\includegraphics[width=.5\textwidth]{img4.jpg}
+    	\caption{Arquitetura típica de uma rede ELM}
+    	%\label{fig:exampleFig1}
+    \end{figure}
+    
+    
+    Este documento visa relatar a eficiência do método apresentado acima para quatro bases de dados: base de dados "Iris",  base de dados "Coluna Vertebral",  base de dados "Dermatologia" e uma base de dados gerada artificialmente. As três primeiras bases serão para testes de classificação enquanto que a base artificial será para testes regressão. As métricas utilizadas foram a acurácia e o desvio padrão da taxa de acertos para classificação. Para regressão foi utilizado o erro quadrático médio para 20 realizações com uso do método da validação cruzada.
+    
+  	\section{Bases de dados}
+  	\noindent
+     Nesta seção faremos breves esclarecimentos sobre os conjuntos de dados que foram utilizadas para dos testes.
+    
+    \subsection{Base de dados da "Iris"}
+    \noindent
+     A base de dados da Iris é, provavelmente, o conjunto de dados mais conhecido quando falamos em reconhecimento de padrões e classificação. Este conjunto de dados se refere à classificação de 3 especies de flores para plantas do gênero Iris: Iris-setosa, Iris-versicolor e Iris-virginica. Cada padrão é composto por uma tupla com 5 atributos: comprimento da sépala, largura da sépala, comprimento da pétala, largura da pétala e sua classificação. Nesta conjunto de dados temos 150 padrões com 50 representantes de cada uma das classes mencionadas acima.
+     
+     \subsection{Base de dados da "Coluna Vertebral"}
+     \noindent
+     A base de dados da coluna vertebral dá conta da classificação de pacientes em relação à duas patologias da coluna vertebral: Hérnia de Disco e Espondilolistese. Cada padrão deste conjunto de dados é composto por uma tupla de 6 atributos: forma e orientação da pélvis, forma e orientação de coluna lombar, incidência pélvica, inclinação pélvica, ângulo de lordose lombar, inclinação sacral, raio pélvico e grau de espondilolistese. Além disso, cada tupla é classificada entre Hérnia de Disco, Espondilolistese e Normal.	Neste conjunto de dados temos 310 entradas com 60 entradas relacionadas à pacientes com Hérnia de Disco, 150 entradas relacionadas à pacientes com Espondilolistese e mais 100 entradas relacionadas à pacientes sem patologias.
+     
+     \subsection{Base de dados da "Dermatologia"}
+     \noindent     
+     Esta base de dados esta relacionada à classificação de pacientes portadores de patologias dermatológicas. Mais especificamente, cada padrão esta relacionado à uma entre as 6 patologias mencionadas à seguir: Psoríase, Dermatite Seborreica, Líquen Plano, Pitiríase Rósea, Dermatite Crônica e Pitiríase Rubra Pilar. Cada padrão deste conjunto de dados é composto por uma tupla com 34 atributos. Dentre estes atributos podemos citar: Eosinófilos de Infiltrado, Infiltrado de LPN, Fibrose da Derma Papilar, entre outros. Este conjunto de dados possui 366 entradas com 112 instancias de Psoríase, 61 instancias de Dermatite Seborreica, 72 instancias de Líquen Plano, 49 instancias de Pitiríase Rósea, 52 instancias de Dermatite Crônica e 20 instancias de Pitiríase Rubra Pilar.
+     
+     \subsection{Base de dados artificial}
+     \noindent
+     Para testar a eficiência do método para a aproximação de funções, foi gerada uma base de dados com 1000 entradas. Este conjunto de dados é baseada em uma função senoidal com um certo ruido adicionado. 
+     
+     
+     \section{Testes e Resultados}
+     \noindent
+     Nesta seção serão apresentados os resultados obtidos após a aplicação do Perceptron multi-camadas para os três conjuntos de dados apresentados na seção anterior.
+     
+     \subsection{Resultados para base de dados da "Iris"}
+     \noindent
+    Neste conjunto foram 10 realizações. Além disso, a saída foi obtida com uso do OLAM. A taxa de acerto para cada realização é mostrada na Figura 2.
+     
+      \begin{figure}[!htb]
+     	\centering
+     	\includegraphics[width=.60\textwidth]{taxaIris.jpg}
+     	\caption{Taxa de acerto para a base de dados da "Iris"}
+     	%\label{fig:exampleFig1}
+     \end{figure}
+     
+     \subsection{Resultados para base de dados da "Coluna Vertebral"}
+     \noindent
+     Neste conjunto foram 10 realizações. Além disso, a saída foi obtida com uso do OLAM. A taxa de acerto é mostrada abaixo, na Figura 3.
+     
+     \begin{figure}[!htb]
+     	\centering
+     	\includegraphics[width=.60\textwidth]{taxaColuna.jpg}
+     	\caption{Taxa de acerto para a base de dados da "Coluna Vertebral"}
+     	%\label{fig:exampleFig1}
+     \end{figure}
+ 
+ 
+ 
+	  \subsection{Resultados para base de dados "Dermatologia"}
+	 \noindent
+	 Neste conjunto de dados foram 10 realizações. Além disso, a saída foi obtida com uso do OLAM. A taxa de acerto é mostrada abaixo, na Figura 4.
+	 
+	 \begin{figure}[!htb]
+	 	\centering
+	 	\includegraphics[width=.60\textwidth]{taxaDerma.jpg}
+	 	\caption{Taxa de acerto para a base de dados "Dermatologia"}
+	 	%\label{fig:exampleFig1}
+	 \end{figure}
+ 
+ 	\subsection{Resultados para base de dados Artificial}
+ 	\noindent
+ 	Para este conjunto foram feitas 10 realizações. A função de ativação é linear. Os resultados visuais são mostrados na Figura 5.
+ 
+ \begin{figure}[!htb]
+ 	\centering
+ 	\includegraphics[width=.70\textwidth]{testeRegre.jpg}
+ 	\caption{Resultados para regressão}
+ 	%\label{fig:exampleFig1}
+ \end{figure}
+ 
+ 	\subsection{Resultados gerais para todas as bases de dados utilizadas}
+ 	\noindent
+ 	A tabela abaixo resume os resultados obtidos para a utilização de todos os conjuntos de dados apresentados na seção 2 para classificação. 
+ 	
+ 	\begin{center}
+ 		\begin{tabular}{|c|c|c|}
+ 			\hline
+ 			$\textbf{Base de dados}$&\textbf{Acurácia}&\textbf{Desvio padrão} \\ \hline 
+ 			\textrm{Iris}&$0.9633$&$0.02460$\\
+ 			\textrm{Coluna Vertebral}&$0.8533$&$0.0526$ \\
+ 			\textrm{Dermatologia}&$0.9604$&$0.0128$ \\
+ 			\hline
+ 		\end{tabular}
+ 	\end{center}
+ 
+ Para o conjunto de dados artificial, temos um RMSE médio de 0.2926 com desvio padrão de 0.0070 para 10 realizações. 	
+ 	\section{Conclusão}
+ 	\noindent
+ 	A partir dos resultados mostrados acima podemos comprovar que as redes ELM são bastante eficazes tanto para classificação quanto para regressão. Além disso, o seu treinamento é, de fato, bastante veloz devido ao OLAM.
+ 	
+
+    
+\end{document}

@@ -1,0 +1,133 @@
+\documentclass[12pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
+\usepackage{graphics, graphicx}
+\usepackage{setspace}
+\usepackage{pdflscape}
+\usepackage{multicol}
+\usepackage{algpseudocode, algorithm}
+\usepackage{natded}
+\usepackage{indentfirst}
+\pagestyle{myheadings}
+%\usepackage[]{algorithm2e}
+%\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{verbatim}
+%\usepackage[demo]{graphicx}
+\usepackage{subfig}
+
+
+	\thispagestyle{empty}
+    \begin{document}
+        
+	\begin{center}
+		\textbf{Instituto Federal de Educação, Ciência e Tecnologia do Ceará}
+		
+		\textbf{Bacharelado em Ciência da Computação 2017.2}
+		
+		\textbf{Disciplina:} Redes Neurais Artificiais
+		
+		\textbf{Professor:} Ajalmar Rocha
+		
+		\textbf{Aluno:} José Igor de Carvalho	
+			
+	\end{center}
+
+   %\hline
+
+\begin{center}
+    \huge\textbf{{MADALINE}}
+    
+\end{center}
+     \hline
+    
+    \section{Introdução}
+    \noindent
+    Sabemos que o ADALINE (\textit{Adaptive Linear Element}) normalmente é usado para aproximação de funções lineares, isto é, regressão linear. Este modelo possui uma função de atualização de pesos semelhante a do Perceptron simples. Por esta razão, é possível fazer uma pequena modificação no ADALINE puro para que este modelo possa ser usado para classificação de padrões.
+    
+    O MADALINE (\textit{Multiple Adaptive Linear Element}) usa uma ideia bastante parecida com a do SLP: especializa neurônios para classificar determinado padrão. No entanto, no SLP temos uma função de ativação Sigmoidal. No MADALINE, por outro lado, a função de ativação é linear. Além disso, é possível combinar esta rede com o OLAM para fornecer um treinamento ainda mais veloz.
+    
+    
+    Este documento visa relatar a eficiência do método apresentado acima para três bases de dados: base de dados "Iris",  base de dados "Coluna Vertebral" e  base de dados "Dermatologia" As métricas utilizadas foram a acurácia e o desvio padrão da taxa de acertos para classificação para um total de 10 realizações. Além disso, os testes foram realizados tanto com o \textit{Feedforward} tradicional quanto com o OLAM.
+    
+  	\section{Bases de dados}
+  	\noindent
+     Nesta seção faremos breves esclarecimentos sobre os conjuntos de dados que foram utilizadas para dos testes.
+    
+    \subsection{Base de dados da "Iris"}
+    \noindent
+     A base de dados da Iris é, provavelmente, o conjunto de dados mais conhecido quando falamos em reconhecimento de padrões e classificação. Este conjunto de dados se refere à classificação de 3 especies de flores para plantas do gênero Iris: Iris-setosa, Iris-versicolor e Iris-virginica. Cada padrão é composto por uma tupla com 5 atributos: comprimento da sépala, largura da sépala, comprimento da pétala, largura da pétala e sua classificação. Nesta conjunto de dados temos 150 padrões com 50 representantes de cada uma das classes mencionadas acima.
+     
+     \subsection{Base de dados da "Coluna Vertebral"}
+     \noindent
+     A base de dados da coluna vertebral dá conta da classificação de pacientes em relação à duas patologias da coluna vertebral: Hérnia de Disco e Espondilolistese. Cada padrão deste conjunto de dados é composto por uma tupla de 6 atributos: forma e orientação da pélvis, forma e orientação de coluna lombar, incidência pélvica, inclinação pélvica, ângulo de lordose lombar, inclinação sacral, raio pélvico e grau de espondilolistese. Além disso, cada tupla é classificada entre Hérnia de Disco, Espondilolistese e Normal.	Neste conjunto de dados temos 310 entradas com 60 entradas relacionadas à pacientes com Hérnia de Disco, 150 entradas relacionadas à pacientes com Espondilolistese e mais 100 entradas relacionadas à pacientes sem patologias.
+     
+     \subsection{Base de dados da "Dermatologia"}
+     \noindent     
+     Esta base de dados esta relacionada à classificação de pacientes portadores de patologias dermatológicas. Mais especificamente, cada padrão esta relacionado à uma entre as 6 patologias mencionadas à seguir: Psoríase, Dermatite Seborreica, Líquen Plano, Pitiríase Rósea, Dermatite Crônica e Pitiríase Rubra Pilar. Cada padrão deste conjunto de dados é composto por uma tupla com 34 atributos. Dentre estes atributos podemos citar: Eosinófilos de Infiltrado, Infiltrado de LPN, Fibrose da Derma Papilar, entre outros. Este conjunto de dados possui 366 entradas com 112 instancias de Psoríase, 61 instancias de Dermatite Seborreica, 72 instancias de Líquen Plano, 49 instancias de Pitiríase Rósea, 52 instancias de Dermatite Crônica e 20 instancias de Pitiríase Rubra Pilar.
+     
+     
+     \section{Testes e Resultados}
+     \noindent
+     Nesta seção serão apresentados os resultados obtidos após a aplicação do Perceptron multi-camadas para os três conjuntos de dados apresentados na seção anterior.
+     
+     \subsection{Resultados para base de dados da "Iris"}
+     \noindent
+    Neste conjunto foram 10 realizações. O treino foi realizado com um conjunto com 120 amostras e para testes um conjunto com 30 amostras. Os resultados são mostrados na Figura 1.
+     
+      \begin{figure}[!htb]
+     	\centering
+     	\includegraphics[width=.85\textwidth]{taxaIris.jpg}
+     	\caption{Taxa de acerto para a base de dados da "Iris"}
+     	%\label{fig:exampleFig1}
+     \end{figure}
+     
+     \subsection{Resultados para base de dados da "Coluna Vertebral"}
+     \noindent
+     Neste conjunto foram 10 realizações. O treino foi realizado com um conjunto com 250 amostras e para testes um conjunto com 60 amostras. Os resultados são mostrados na Figura 2.
+     
+     \begin{figure}[!htb]
+     	\centering
+     	\includegraphics[width=.85\textwidth]{taxaColuna.jpg}
+     	\caption{Taxa de acerto para a base de dados da "Coluna Vertebral"}
+     	%\label{fig:exampleFig1}
+     \end{figure}
+ 
+ 
+ 
+	  \subsection{Resultados para base de dados "Dermatologia"}
+	 \noindent
+	 Neste conjunto foram 10 realizações. O treino foi realizado com um conjunto com 270 amostras e para testes um conjunto com 66 amostras. Os resultados são mostrados na Figura 3.
+	 
+	 \begin{figure}[!htb]
+	 	\centering
+	 	\includegraphics[width=.85\textwidth]{taxaDerma.jpg}
+	 	\caption{Taxa de acerto para a base de dados "Dermatologia"}
+	 	%\label{fig:exampleFig1}
+	 \end{figure}
+ 
+ 	\subsection{Resultados gerais para todas as bases de dados utilizadas}
+ 	\noindent
+ 	A tabela abaixo resume os resultados obtidos para a utilização de todos os conjuntos de dados apresentados na seção 2 para classificação. 
+ 	
+ 	\begin{center}
+ 		\begin{tabular}{|c|c|c|}
+ 			\hline
+ 			$\textbf{Base de dados}$&\textbf{Acurácia - D. Padrão}&\textbf{Acurácia - D. Padrão (OLAM)} \\ \hline 
+ 			\textrm{Iris}&$0.9433 - 0.0460$&$0.8300 - 0.0580$\\
+ 			\textrm{Coluna Vertebral}&$0.8317 - 0.0569$&$0.8083 - 0.0418$ \\
+ 			\textrm{Dermatologia}&$0.9604 - 0.0201$&$0.9750 - 0.0164$ \\
+ 			\hline
+ 		\end{tabular}
+ 	\end{center}
+ 	
+ 	\section{Conclusão}
+ 	\noindent
+ 	Com os resultados obtidos na seção foi possível provar que, apesar de não ser a melhor para a tarefa de classificação de padrões, o MADALINE possui uma boa eficácia. Além disso, seu treinamento é extremamente rápido se comparado com redes como MLP e RBF.
+
+\end{document}

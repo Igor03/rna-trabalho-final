@@ -1,0 +1,137 @@
+\documentclass[12pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
+\usepackage{graphics, graphicx}
+\usepackage{setspace}
+\usepackage{pdflscape}
+\usepackage{multicol}
+\usepackage{algpseudocode, algorithm}
+\usepackage{natded}
+\usepackage{indentfirst}
+\pagestyle{myheadings}
+%\usepackage[]{algorithm2e}
+%\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{verbatim}
+%\usepackage[demo]{graphicx}
+\usepackage{subfig}
+
+
+	\thispagestyle{empty}
+    \begin{document}
+        
+	\begin{center}
+		\textbf{Instituto Federal de Educação, Ciência e Tecnologia do Ceará}
+		
+		\textbf{Bacharelado em Ciência da Computação 2017.2}
+		
+		\textbf{Disciplina:} Redes Neurais Artificiais
+		
+		\textbf{Professor:} Ajalmar Rocha
+		
+		\textbf{Aluno:} José Igor de Carvalho	
+			
+	\end{center}
+
+
+\begin{center}
+    \huge\textbf{{MLP - Perceptron Multi-camadas}}
+    
+\end{center}
+     \hline
+    \section{Introdução}
+    \noindent
+    Como sabemos, o Perceptron Simples é um classificador linear binário, isto é, este modelo é capaz de classificar dados linearmente separáveis e em apenas duas classes. É possível combinarmos mais de um neurônio perceptron para tornar possível a classificação de dados em duas ou mais classes. Isto é feito "especializando" cada neurônio para uma classificação específica. Esta estrutura é conhecida como perceptron de uma camada. No entanto, apesar de conseguir classificar, com uma certa precisão,  um conjunto de dados com mais de duas classes, este modelo falha quando estes dados não são linearmente separáveis, fato que ocorre na grande maioria dos problemas do mundo real.
+    
+    O Perceptron de multi-camadas (\textit{Multilayer Perceptron} ou MLP) é uma rede neural capaz de resolver o problema da não linearidade dos dados,  mencionado acima. Nela, temos a figura das camadas ocultas. Cada camada oculta é composta por um ou mais neurônio. Além disso, cada camada oculta possui seus neurônios totalmente conectados entre si. Outro grande disparidade em relação ao perceptron simples é o fato de que todos os neurônios de todas as camadas possuem uma função de ativação sigmoidal. O treinamento deste modelo é realizado com base no algoritmo \textit{Backpropagation}. A estrutura deste modelo é mostrada na Figura 1.
+    
+     \begin{figure}[!htb]
+    	\centering
+    	\includegraphics[width=.65\textwidth]{img1.png}
+    	\caption{Estrutura de uma rede MLP}
+    	%\label{fig:exampleFig1}
+    \end{figure}
+    
+    
+    Este documento visa relatar a eficiência do método apresentado acima para três bases de dados: base de dados "Iris",  base de dados "Coluna Vertebral" e base de dados "Dermatologia". As métricas utilizadas foram a acurácia e o desvio padrão da taxa de acertos para 10 realizações com uso do método da validação cruzada.
+    
+  	\section{Bases de dados}
+  	\noindent
+     Nesta seção faremos breves esclarecimentos sobre os conjuntos de dados que foram utilizadas para dos testes.
+    
+    \subsection{Base de dados da "Iris"}
+    \noindent
+     A base de dados da Iris é, provavelmente, o conjunto de dados mais conhecido quando falamos em reconhecimento de padrões e classificação. Este conjunto de dados se refere à classificação de 3 especies de flores para plantas do gênero Iris: Iris-setosa, Iris-versicolor e Iris-virginica. Cada padrão é composto por uma tupla com 5 atributos: comprimento da sépala, largura da sépala, comprimento da pétala, largura da pétala e sua classificação. Nesta conjunto de dados temos 150 padrões com 50 representantes de cada uma das classes mencionadas acima.
+     
+     \subsection{Base de dados da "Coluna Vertebral"}
+     \noindent
+     A base de dados da coluna vertebral dá conta da classificação de pacientes em relação à duas patologias da coluna vertebral: Hérnia de Disco e Espondilolistese. Cada padrão deste conjunto de dados é composto por uma tupla de 6 atributos: forma e orientação da pélvis, forma e orientação de coluna lombar, incidência pélvica, inclinação pélvica, ângulo de lordose lombar, inclinação sacral, raio pélvico e grau de espondilolistese. Além disso, cada tupla é classificada entre Hérnia de Disco, Espondilolistese e Normal.	Neste conjunto de dados temos 310 entradas com 60 entradas relacionadas à pacientes com Hérnia de Disco, 150 entradas relacionadas à pacientes com Espondilolistese e mais 100 entradas relacionadas à pacientes sem patologias.
+     
+     \subsection{Base de dados da "Dermatologia"}
+     \noindent     
+     Esta base de dados esta relacionada à classificação de pacientes portadores de patologias dermatológicas. Mais especificamente, cada padrão esta relacionado à uma entre as 6 patologias mencionadas à seguir: Psoríase, Dermatite Seborreica, Líquen Plano, Pitiríase Rósea, Dermatite Crônica e Pitiríase Rubra Pilar. Cada padrão deste conjunto de dados é composto por uma tupla com 34 atributos. Dentre estes atributos podemos citar: Eosinófilos de Infiltrado, Infiltrado de LPN, Fibrose da Derma Papilar, entre outros. Este conjunto de dados possui 366 entradas com 112 instancias de Psoríase, 61 instancias de Dermatite Seborreica, 72 instancias de Líquen Plano, 49 instancias de Pitiríase Rósea, 52 instancias de Dermatite Crônica e 20 instancias de Pitiríase Rubra Pilar.
+     
+     \section{Testes e Resultados}
+     \noindent
+     Nesta seção serão apresentados os resultados obtidos após a aplicação do Perceptron multi-camadas para os três conjuntos de dados apresentados na seção anterior.
+     
+     \subsection{Resultados para base de dados da "Iris"}
+     \noindent
+     Neste conjunto de dados foram realizadas 80 épocas de treinamento e 10 realizações. Além disso, foi utilizada a função de ativação Logística. A taxa de acerto para cada realização é mostrada na Figura 2.
+     
+      \begin{figure}[!htb]
+     	\centering
+     	\includegraphics[width=.70\textwidth]{img1.jpg}
+     	\caption{Taxa de acerto para a base de dados da "Iris"}
+     	%\label{fig:exampleFig1}
+     \end{figure}
+     
+     \subsection{Resultados para base de dados da "Coluna Vertebral"}
+     \noindent
+     Neste conjunto de dados foram realizadas 100 épocas de treinamento e 10 realizações. Também foi feito uso da função Logística para função de ativação. A taxa de acerto é mostrada abaixo, na Figura 3.
+     
+     \begin{figure}[!htb]
+     	\centering
+     	\includegraphics[width=.70\textwidth]{img2.jpg}
+     	\caption{Taxa de acerto para a base de dados da "Coluna Vertebral"}
+     	%\label{fig:exampleFig1}
+     \end{figure}
+ 
+	  \subsection{Resultados para base de dados "Dermatologia"}
+	 \noindent
+	 Neste conjunto de dados foram realizadas 80 épocas de treinamento e 10 realizações. Também foi feito uso da função Logística para função de ativação. A taxa de acerto é mostrada abaixo, na Figura 4.
+	 
+	 \begin{figure}[!htb]
+	 	\centering
+	 	\includegraphics[width=.70\textwidth]{img3.jpg}
+	 	\caption{Taxa de acerto para a base de dados "Dermatologia"}
+	 	%\label{fig:exampleFig1}
+	 \end{figure}
+ 
+ 	\subsection{Resultados gerais para todas as bases de dados utilizadas}
+ 	\noindent
+ 	A tabela abaixo resume os resultados obtidos para a utilização de todos os conjuntos de dados apresentados na seção 2. 
+ 	
+ 	\begin{center}
+ 		\begin{tabular}{|c|c|c|}
+ 			\hline
+ 			$\textbf{Base de dados}$&\textbf{Acurácia}&\textbf{Desvio padrão} \\ \hline 
+ 			\textrm{Iris}&$0.9433$&$0.04460$\\
+ 			\textrm{Coluna Vertebral}&$0.8083$&$0.0239$ \\
+ 			\textrm{Dermatologia}&$0.9667$&$0.04220$ \\
+ 			\hline
+ 		\end{tabular}
+ 	\end{center}
+ 	
+ 	\section{Conclusão}
+ 	\noindent
+ 	Podemos comprovar que, apesar da complexidade, o MLP é extremamente eficiente quando utilizado para a classificação de conjuntos da dados não linearmente separáveis. E por conta disso,  este modelo continua sendo amplamente utilizado em problemas reais tanto para classificação quando para regressão.
+		
+
+    
+\end{document}
