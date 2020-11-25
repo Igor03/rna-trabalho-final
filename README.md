@@ -1,0 +1,2 @@
+# rna-trabalho-final
+Trabalho final da disciplina de Redes Neurais Artificiais. Neste trabalho temos a implementação e os testes de acurácia para 4 modelos de redes neurais diferentes, a saber: Multilayer Perceptron (MLP), Extreme Learning Machine (ELM), Radial Basis Function (RBF) e Multiple Adaptive Linear Element (MADALINE). Os resultados destes testes são documentos em relatórios presentes no diretório  /RELATORIOS/ deste mesmo repositório.
